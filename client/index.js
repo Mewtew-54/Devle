@@ -28,13 +28,17 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 //   },
 // ]);
 
+// const store = configureStore({
+//   reducer: 
+// })
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  // <Provider store={store}>
   <>
+    <Provider store={store}>
     {/* <RouterProvider router={router} /> */}
-    <App/>
+      <App/>
+    </Provider>
   </>
-  // </Provider>
   
 )
