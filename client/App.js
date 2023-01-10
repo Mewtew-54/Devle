@@ -6,14 +6,14 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 const App = (props) => {
   return (
+    <div>
       <BrowserRouter>
-        <div>
           <Routes>
+            <Route path="/signin" element={<SignIn/>}/>
             <Route path='/' element={<Home/>}/>
-            <Route path='/signin' element={<SignIn/>}/>
           </Routes>
-        </div>
       </BrowserRouter>
+    </div>
   )
 }
 
