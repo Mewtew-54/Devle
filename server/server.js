@@ -2,22 +2,20 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = 3000;
-
-// require middleware here
-const gameController = require('./controllers/gameController.js');
+const apiRouter = require('./routes/api');
 
 // parsing json and static files
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(express.static(path.resolve(__dirname, '/client')));
 app.use('/build', express.static(path.resolve(__dirname, '../build')));
 
-// get requests
+//define route handler
+app.use('/', apiRouter)
 
-app.post('/login', (req, res) => {
-    return res.status(200).json(res.locals)
-})
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'));
+});
 
 
 // ---- error handlers ---- //
