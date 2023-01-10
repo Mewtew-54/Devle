@@ -5,21 +5,26 @@ module.exports = {
     entry: './client/index.js',
     output: {
         path: path.join(__dirname, 'build'),
-        filename: 'bundle.js'
+        filename: 'bundle.js',
+        // publicPath: '/'
     },
-    mode: 'development',
+    mode: 'production',
     devServer: {
-        port: 8080,
-        host: 'localhost',
-        proxy: {
-            '/': {
-                target: 'http://localhost:8080',
-                router: () => 'http://localhost:3000',
-                secure: false,
-                changeOrigin: true
-            },
-        },
+        // port: 8080,
+        // host: 'localhost',
+        // proxy: {
+        //     '/': {
+        //         target: 'http://localhost:8080',
+        //         router: () => 'http://localhost:3000',
+        //         secure: false,
+        //         changeOrigin: true
+        //     },
+        // },
         historyApiFallback: true,
+        static: {
+            directory: path.join(__dirname, 'build'),
+            publicPath: '/'
+        }
     },
     plugins: [
         new HtmlWebpackPlugin({

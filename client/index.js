@@ -1,8 +1,9 @@
 import React from 'react'
-import * as ReactDOM  from 'react-dom'
+import * as ReactDOM  from 'react-dom/client'
 import './style.css'
 import App from './App'
 import Home from './components/Home.jsx'
+import attemptsReducer from './state/index.js'
 import {configureStore} from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
