@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = 3000;
+const apiRouter = require('./routes/api');
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
@@ -18,20 +19,35 @@ app.get('/*', (req, res) => {
     res.status(200).sendFile('/Users/Gahl/Desktop/Codesmith/Week 11/Devle/build')
   })
 
-function errorHandler(error, req, res, next) {
-  const defaultErr = {
-    log: 'Express error handler caught unknown middleware error',
-    status: 400,
-    message: { err: 'An error occurred' },
-  };
-  const errorObj = Object.assign(defaultErr, error);
-  console.log(`Here is the error object's response: ${errorObj.log}`);
-  res.status(errorObj.status).json(errorObj.message);
-}
+//define route handler
+app.use('/', apiRouter)
 
-app.listen(3000, () => {
-  console.log('express server is running on port 3000')
-})
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build'));
+});
+
+
+// ---- error handlers ---- //
+
+// local error 
+app.use('*', (req, res) => {
+    res.status(404).send('404: Not Found');
+});
+
+// globabl error
+app.use((err, req, res, next) => {
+    const errObj = {
+      log: 'Express error handler caught unknown middleware error',
+      status: 400,
+      message: {err: 'An error occurred'}
+    };
+    return res.status(errObj.status).json(errObj);
+  })
+
+
+app.listen(PORT, () => {
+    console.log(`express server is running on port ${PORT}`);
+});
 
 
 module.exports = app;

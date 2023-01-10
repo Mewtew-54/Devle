@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import Home from './components/Home.jsx'
 import SignIn from './components/SignIn.jsx'
+import SignUp from './components/SignUp.jsx'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 const App = (props) => {
@@ -9,8 +10,9 @@ const App = (props) => {
     <div>
       <BrowserRouter>
           <Routes>
-            <Route path="/signin" element={<SignIn/>}/>
-            <Route path='/' element={<Home/>}/>
+            <Route path='/' element={<Home />}/>
+            <Route path="/signin" element={<SignIn />}/>
+            <Route path='/signup' element={<SignUp />}/>
           </Routes>
       </BrowserRouter>
     </div>
