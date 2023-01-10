@@ -5,10 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode production",
+    "build": "webpack --mode=production",
     "start": "nodemon server/server.js",
-    "dev": "npm start & webpack-dev-server --mode development --open --hot"
-
+    "dev": "npm start & webpack-dev-server --mode=development --open --hot"
   },
   "repository": {
     "type": "git",
@@ -32,6 +31,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
+    "react-router-dom": "^6.6.2",
     "redux": "^4.2.0",
     "yup": "^0.32.11"
   },

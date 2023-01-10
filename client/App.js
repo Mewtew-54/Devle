@@ -1,11 +1,19 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import Home from './components/Home.jsx'
+import SignIn from './components/SignIn.jsx'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 const App = (props) => {
   return (
-    <>
-      <h1>Hello World</h1>
-    </>
+      <BrowserRouter>
+        <div>
+          <Routes>
+            <Route path='/' element={<Home/>}/>
+            <Route path='/signin' element={<SignIn/>}/>
+          </Routes>
+        </div>
+      </BrowserRouter>
   )
 }
 

@@ -7,7 +7,7 @@ module.exports = {
         path: path.join(__dirname, 'build'),
         filename: 'bundle.js'
     },
-    mode: 'production',
+    mode: 'development',
     devServer: {
         port: 8080,
         host: 'localhost',
@@ -18,7 +18,8 @@ module.exports = {
                 secure: false,
                 changeOrigin: true
             },
-        }
+        },
+        historyApiFallback: true,
     },
     plugins: [
         new HtmlWebpackPlugin({
