@@ -15,33 +15,76 @@ import { useDispatch, useSelector } from 'react-redux';
 const Home = () => {
 
 	const [devle, setDevle] = useState('');
+	const [attempt, setAttempt] = useState(1);
 	// const devle = useSelector(state => state.devl)
 	const attempts = useSelector((state) => state.attempts);
-	console.log(attempts);
+	// console.log(attempts);
 	// async function getDevle() {
 	// goes to database and gets the question of the day, sets state.devle to question
 	// }
-	const checkAnswer = (e) => {
-		e.preventDefault();
-		if (e.target.value === devle.answer) {
-			//if equal, then set new state value (success?) to true, which will render new component (/success page?) for user
-		}
-	};
+	// const checkAnswer = (e) => {
+	// 	e.preventDefault();
+	// 	if (e.target.value === devle.answer) {
+	// 		//if equal, then set new state value (success?) to true, which will render new component (/success page?) for user
+	// 	}
+	// };
 
 	// fetch the question
 	axios.get('/api/')
 		.then((res) => {
-			console.log(res.data[0].question);
+			// console.log(res.data[0].question);
 			setDevle(res.data[0].question);
 		})
 		.catch((err) => console.log(err));
 
-	// how to obscure question
+	// obscure the question
+
+	const obscured = (devle, x) => {
+		// take our devle 
+		const dArr = devle.split(' ');
+		// obscure x percentage based off of length
+		const totalWords = Math.abs(dArr.length - (dArr.length * x));
+		// loop through the devle arr and replace words with obscured version/remove
+		while (totalWords > 0){
+			dArr.splice(Math.floor(Math.random() * dArr.length), 1, '*');
+			totalWords -= 1;
+		}
+		// put together remaining words to be returned as string
+		return dArr.join(' ');
+	}
+
+	// generate the percentage
+
+	const getX = (attempt) => {
+		let x = 0.9;
+		if (attempt === 1){
+			x = 0.8;
+		} else if (attempt === 2){
+			x = 0.7;
+		} else if (attempt === 3){
+			x = 0.6;
+		} else if (attempt === 4){
+			x = 0.5;
+		} else if (attempt === 5){
+			x = 0.4;
+		}
+		return x;
+	}
 
 	// check if user input is correct
-	// const guess = () => {
-	// 	axios.post('/api/guess')
-	// }
+	const guess = (e) => {
+		e.preventDefault();
+		const userData = {
+			guess: document.getElementById('guess').value
+		}
+		axios.post('/api/guess', userData)
+			.then((res) => {
+				console.log('res data: ', res.data);
+				(!res.data) ? setAttempt(attempt+1) : console.log('winner winner');
+				console.log('attempt: ', attempt);
+			})
+			.catch((err) => console.log(err));
+	}
 
 	return (
 		<div>
@@ -50,11 +93,8 @@ const Home = () => {
 			<div>
 				<div>{devle}</div>
 			</div>
-			<form onSubmit={checkAnswer}>
-				<label>
-					Your Answer:
-					<input type="text" name="name" />
-				</label>
+			<form onSubmit={guess}>
+					<input type="text" name="name" id='guess' placeholder='your answer' />
 				<input type="submit" value="Submit" />
 			</form>
 		</div>
