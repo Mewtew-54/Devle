@@ -23,7 +23,7 @@ app.get('/*', (req, res) => {
 app.use('/', apiRouter)
 
 app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build'));
+    res.sendFile(path.join(__dirname, '../index.html'));
 });
 
 
