@@ -25,6 +25,10 @@ Router.get('/', gameController.getQuestion, (req, res) => {
 Router.post('/guess', gameController.checkAnswer, (req, res) => {
     return res.status(200).json(res.locals.win);
 });
+//show answer if user fails to win in 5 attempts
+Router.get('/answer', gameController.showAnswer, (req, res) => {
+    return res.status(200).json(res.locals.answer);
+})
 //number of attempts that day
 Router.post('/attempts', gameController.saveAttempts, (req, res) => {
     return res.status(200);

@@ -88,4 +88,24 @@ gameController.getAttempts = (req, res, next) => {
     });
 }
 
+// get the answer
+gameController.showAnswer = (req, res, next) => {
+  console.log('inside showAnswer middleware');
+  const answerQ = 'SELECT answer FROM questions WHERE day::date = now()::date';
+  db.query(answerQ)
+    .then((data) => {
+      console.log(data.rows[0].answer);
+      res.locals.answer = data.rows[0].answer;
+      return next();
+    })
+    .catch((err) => {
+      return next({
+        log: 'Express error handler caught inside gameController.showAnswer',
+        status: 400,
+        message: {err: 'An error occurred inside gameController.showAnswer middleware', err}
+      })
+    });
+}
+
+
 module.exports = gameController;
