@@ -3,24 +3,303 @@
 body {
     background-color:   #E6DADA;
     font-family: 'Space Grotesk', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding-top: 10%;
 }
 a:link{
     text-decoration: none;
-    color: #E6DADA;
+    color: #274046;
 }
 
 a {
-    color: #E6DADA;
+    color: #274046;
 }
 button {
     padding: 5px;
     border-radius: 10px;
-    background-color: #274046;
+    background-color: transparent;
     cursor: pointer;
-    color: #E6DADA
+    color: #274046;
+    width: 100%;
 }
 input {
     background-color: transparent;
     border: none;
     border-bottom: 1px solid #274046;
+    width: 100%;
+}
+
+
+
+@keyframes firework {
+    0% { 
+        transform: translate(-50%, 60vh);
+        width: 0.5vmin;
+        opacity: 1;
+    }
+    50% { 
+        width: 0.5vmin;
+        opacity: 1;
+    }
+    100% { 
+        width: 45vmin; 
+        opacity: 0; 
+    }
+}  
+.firework,
+.firework::before,
+.firework::after {
+    --top: 60vh;
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.5vmin;
+    aspect-ratio: 1;
+    background:
+      /* random backgrounds */
+        radial-gradient(circle, cyan 0.2vmin, #0000 0) 50% 00%,
+        radial-gradient(circle, #FFFF01 0.3vmin, #0000 0) 00% 50%,
+        radial-gradient(circle, cyan 0.5vmin, #0000 0) 50% 99%,
+        radial-gradient(circle, #FF01FF 0.2vmin, #0000 0) 99% 50%,
+        radial-gradient(circle, cyan 0.3vmin, #0000 0) 80% 90%,
+        radial-gradient(circle, #FFFF01 0.5vmin, #0000 0) 95% 90%,
+        radial-gradient(circle, cyan 0.5vmin, #0000 0) 10% 60%,
+        radial-gradient(circle, purple 0.2vmin, #0000 0) 31% 80%,
+        radial-gradient(circle, #FF01FF 0.3vmin, #0000 0) 80% 10%,
+        radial-gradient(circle, #FF0180 0.2vmin, #0000 0) 90% 23%,
+        radial-gradient(circle, cyan 0.3vmin, #0000 0) 45% 20%,
+        radial-gradient(circle, #FF0101 0.5vmin, #0000 0) 13% 24%
+        ;
+    background-size: 0.5vmin 0.5vmin;
+    background-repeat: no-repeat;
+    animation: firework 2s infinite;
+}
+
+.firework::before {
+    transform: translate(-50%, -50%) rotate(25deg) !important; 
+}
+.firework::after {
+    transform: translate(-50%, -50%) rotate(-37deg) !important;
+}
+
+.popup {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    justify-content: center;
+}
+
+@keyframes change-color {
+    25% {
+        color: #00A4BD;
+    }
+    50% {
+        color: #FF7A59;
+    }
+    75% {
+        color: #00BDA5;
+    }
+    100% {
+        color: #6A78D1
+    }
+} 
+@keyframes grow-shrink {
+    50% { transform: scale(1.5); }
+}
+
+@keyframes expand {
+    50% { word-spacing: 20px; }
+}
+
+h2 {
+    animation-name: change-color, grow-shrink, expand;
+    animation-duration: 8s, 5s, 5s;
+    animation-iteration-count: infinite;
+
+    font-size: 45px;
+    font-weight: 600;
+    text-align: center;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.devle{
+    text-align: center;
+}
+
+h1 {
+    font-size: 150px;
+    padding-bottom: 0px;
+}
+
+.popup-content{
+    display: flex;
+    flex-direction: column;
+}
+
+.answer-bubble{
+    font-size: 25px;
+}
+
+.loginSignin{
+    width: 75%;
+    align-items: center;
+    margin: auto;
+}
+
+.username {
+    padding-bottom: 20px;
+}
+
+.container{
+    margin: auto;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+   
+}  
+.face{
+    width:150px;
+    height:150px;
+    border: 9px solid #bdc3c7;
+    border-radius:50%;
+    animation: face 7s infinite;
+    animation-delay:2s;
+    position:relative;
+    z-index:9999;
+}
+  
+  
+.mouth{
+    height:10px;
+    width:35px;
+    margin: 0 auto;
+    margin-top: 15px;
+    background-color:#bdc3c7;
+    animation: mouth 7s infinite;
+    animation-delay:2s;
+}
+  
+.tear{
+    position:absolute;
+    background-color: #3498db;
+    height:0px;
+    width:45px;
+    top:62px;
+    left:29px;
+    border-bottom-left-radius:50%;
+    animation: tear 7s infinite;
+    animation-delay:2s;
+}
+  
+.tear2{
+    position:absolute;
+    background-color: #3498db;
+    height:0px;
+    width:45px;
+    top:62px;
+    left:98px;
+    border-bottom-right-radius:50%;
+    animation: tear 7s infinite;
+    animation-delay:2s;
+}
+  
+.eye{
+    height:10px;
+    width:45px;
+    background-color:#bdc3c7;
+    display:inline-block;
+    margin-left:20px;
+    margin-top:20px;
+    animation: cry 7s infinite;
+    animation-delay:2s;
+}
+  
+.eyebrow{
+    width:30px;
+    font-size:40px;
+    font-weight:bold;
+    color:#bdc3c7;
+    display:inline-block;
+    margin-left:27px;
+    margin-top: 10px;
+    opacity:0;
+    animation: eyebrow 7s infinite;
+    animation-delay:2s;
+}
+  
+.eyebrow:nth-child(1){
+    transform:rotate(-20deg);
+}
+  
+.eyebrow:nth-child(2){
+    transform:rotate(20deg);
+}
+  
+  @keyframes mouth{
+    10%{height:30px;width:25px; border:6px solid black;border-radius:50%;margin-top:-8px;}
+    50%{height:30px;width:25px; border:6px solid black;border-radius:50%;margin-top:-8px;}
+    60%{height:10px;width:35px;border-radius:0%;border:none;margin-top:15px;}
+}
+  
+@keyframes cry{
+    10%{transform:translateY(-34px);background-color:black;}
+    50%{transform:translateY(-34px);background-color:black;}
+    60%{background-color:#bdc3c7;transform:translateY(0px);}
+}
+  
+@keyframes eyebrow{
+    10%{opacity:1;color:black;}
+    50%{opacity:1;color:black;}
+    60%{opacity:0;}
+}
+  
+@keyframes face{
+    10%{border-color:black;}
+    50%{border-color:black;}
+    60%{border-color:#bdc3c7;}
+}
+  
+@keyframes tear{
+    10%{height:96px;}
+    50%{height:96px;}
+    52%{height:0px;}
+}
+
+#rain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+}
+  
+.drop {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background: #00bfff;
+    z-index: 1;
+    animation: fall 1s linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(100%);
+    }
 }

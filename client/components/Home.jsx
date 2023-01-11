@@ -141,6 +141,7 @@ const Home = () => {
 	}
 
 	if (attempt === 5){
+		axios.post('/api/attempts', attempt);
 		navigate('/popup');
 	}
 
@@ -152,27 +153,32 @@ const Home = () => {
 		axios.post('/api/guess', userData)
 			.then((res) => {
 				console.log('res data: ', res.data);
-				(answer == userData) ? 
-
-					navigate('/win') :
+				if (answer == userData){
+				  axios.post('/api/attempts', attempt)
+					navigate('/win')
+				} else {
 					setAttempt(attempt + 1);
+				}
 				// (!res.data) ? setAttempt(attempt+1) : console.log('winner winner');
 				console.log('attempt: ', attempt);
 			})
 			.catch((err) => console.log(err));
 	}
 	
+
+
 	// const obscuredQ = (obscured(devle, getX(attempt)));
 
 	return (
-		<div>
+		<div className='devle'>
 			<h1>Devle</h1>
-			<h1> number of attempts: {attempt} </h1>
 			<div>
 				<div>{obscuredQuestion}</div>
 			</div>
+			<br></br>
+			<br></br>
 			<form onSubmit={guess}>
-					<input type="text" name="name" id='guess' placeholder='your answer' />
+				<input style={{borderBottom :'none'}}type="text" name="name" id='guess' placeholder='your answer' />
 				<button type="submit" value="Submit"> guess </button>
 			</form>
 		</div>

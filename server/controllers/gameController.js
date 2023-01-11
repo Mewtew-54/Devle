@@ -51,9 +51,9 @@ gameController.checkAnswer = (req, res, next) => {
 // post the latest total number of attempts of user
 gameController.saveAttempts = (req, res, next) => {
   console.log('inside gameController.saveAttempts');
-  const { user_id, attempt } = req.body;
-  const param = [user_id, attempt];
-  const saveAttemptQ = 'INSERT INTO attempts (user_id, day, attempts) VALUES ($1, now()::date, $2)';
+  const { attempt } = req.body;
+  const param = [attempt];
+  const saveAttemptQ = 'INSERT INTO attempts (day, attempts) VALUES (now()::date, $1)';
   db.query(saveAttemptQ, param)
     .then((data) => {
       return next();
