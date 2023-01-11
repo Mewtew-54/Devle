@@ -25,6 +25,14 @@ Router.get('/', gameController.getQuestion, (req, res) => {
 Router.post('/guess', gameController.checkAnswer, (req, res) => {
     return res.status(200).json(res.locals.win);
 });
+//number of attempts that day
+Router.post('/attempts', gameController.saveAttempts, (req, res) => {
+    return res.status(200);
+})
+// get all the attempts for stats
+Router.get('/attempts', gameController.getAttempts, (req, res) => {
+    return res.status(200).json(res.locals.attempts);
+})
 
 
 module.exports = Router;
