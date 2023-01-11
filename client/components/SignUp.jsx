@@ -11,7 +11,7 @@ const SignUp = (props) => {
       email: document.getElementById('email').value
     }
     axios.post('/api/signup', userData);
-    navigate('/signin');
+    navigate('/');
     
   }
   // if (this.props.redirect) {
@@ -21,11 +21,10 @@ const SignUp = (props) => {
         <div className="home">
         <div className="welcome" data-testid="SignUp">
           <h1 className="welcomeMessage">Welcome to Devle!</h1>
-          <h2></h2>
   
           <form className="form" onSubmit={submitHandler}>
             <label className="username">
-              <input type="text" name="username" id="username" placeholder="enter username" />
+              <input type="text" name="username" id="username" placeholder="Enter username" />
             </label>
             <label className="email">
               <input type="email" name="email" id="email" placeholder="your@email.here" />
@@ -40,8 +39,8 @@ const SignUp = (props) => {
             <button className="link" id="submitBtn" type="submit">
               Sign Up
             </button>
-            <button className="link needAccount">
-              <Link id='link' to='/signin'>Already have an account?</Link>
+            <button className="link">
+              <Link id='link' to='/'>Already have an account?</Link>
             </button>
           </form>
         </div>

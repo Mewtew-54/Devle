@@ -10,7 +10,7 @@ const SignIn = () => {
             password: document.getElementById('password').value ,
         }
         axios.post('/api/signin', userData);
-        navigate('/');
+        navigate('/mainpage');
     }
     return (
         <div className="home">
@@ -18,7 +18,7 @@ const SignIn = () => {
                 <h1 className="welcomeMessage">Welcome to Devle!</h1>
                 <form className="form" onSubmit={submitHandler}>
                     <label className="username">
-                        <input type="text" name="username" id="username" placeholder="enter username" />
+                        <input type="text" name="username" id="username" placeholder="Enter username" />
                     </label>
                     <label className="password">
                         <input type="password" name="password" id="password" placeholder="Enter password" />

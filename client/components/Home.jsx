@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import state, { initialState, increment, reset, setDevle } from '../state';
 import { useDispatch, useSelector } from 'react-redux';
+import Popup from './Popup'
+import Win from './Win'
+import { useNavigate } from 'react-router-dom';
 
 // const devle = {
 // 	questionStrings: [
@@ -13,9 +16,12 @@ import { useDispatch, useSelector } from 'react-redux';
 // };
 
 const Home = () => {
-
+	const navigate = useNavigate();
 	const [devle, setDevle] = useState('');
-	const [attempt, setAttempt] = useState(1);
+	const [obscuredQuestion, setObscuredQuestion] = useState(devle);
+	const [indices, setIndices] = useState([]);
+	const [attempt, setAttempt] = useState(0);
+	const [show, setShow] = useState(false);
 	// const devle = useSelector(state => state.devl)
 	const attempts = useSelector((state) => state.attempts);
 	// console.log(attempts);
@@ -30,6 +36,11 @@ const Home = () => {
 	// };
 
 	// fetch the question
+
+	useEffect(() => {
+		setObscuredQuestion(obscured(devle, obscuredQuestion, getX(attempt)));
+	}, [ devle, attempt ])
+
 	axios.get('/api/')
 		.then((res) => {
 			// console.log(res.data[0].question);
@@ -37,38 +48,100 @@ const Home = () => {
 		})
 		.catch((err) => console.log(err));
 
+	let answer;
+	// answer
+	axios.get('/api/answer')
+		.then((res) => {
+			answer = res.data;
+		})
+		.catch((err) => console.log(err));
+
 	// obscure the question
 
-	const obscured = (devle, x) => {
+	// const indices = [];
+
+	const obscured = (devle, obscuredQuestion, x) => {
+		console.log('devle is ', devle)
+		// console.log('devle is: ', devle);
+		// console.log('x is: ', x);
 		// take our devle 
+
+		//first iteration (obscuredQuestion === undefined), run obscured and set obscured question to result
+		//subsequent iterations, run obscured and set OQ to result 
 		const dArr = devle.split(' ');
+		// console.log('dArr is: ', dArr);
 		// obscure x percentage based off of length
-		const totalWords = Math.abs(dArr.length - (dArr.length * x));
+		let totalWords = Math.floor(dArr.length - (dArr.length * x));
+		console.log('totalWords is: ', totalWords);
 		// loop through the devle arr and replace words with obscured version/remove
-		while (totalWords > 0){
-			dArr.splice(Math.floor(Math.random() * dArr.length), 1, '*');
-			totalWords -= 1;
+		// first iteration
+		if (attempt === 0){
+			// console.log('inside if conditional');
+			let indicesArr = []; 
+			while (totalWords > 0){
+				let index = Math.floor(Math.random() * dArr.length)
+				if (!dArr[index].includes('_') && !dArr[index].includes('*')) {
+					// console.log('inside second conditional')
+					dArr.splice(index, 1, '*'.repeat(dArr[index].length));
+					totalWords -= 1;
+					indicesArr.push(index); 
+					
+					// indices.push(index);
+					// console.log("indicesArr is: ", indicesArr);
+				}
+			// setObscursedQuestion(dArr.join(' '));
 		}
-		// put together remaining words to be returned as string
+		setIndices(indicesArr);
+		console.log('state indices: ', indices)
 		return dArr.join(' ');
+		} else if (attempt < 5) {
+			console.log('indices: ', indices);
+			// grab a random index from our indices
+			const original = devle.split(' ');
+			const obscuredArr = obscuredQuestion.split(' ');
+			console.log('obscuredArr: ', obscuredArr);
+			let findIndex = indices[Math.floor(Math.random() * indices.length)];
+			console.log('findIndex: ', findIndex);
+			
+			setIndices((prev) => {
+				// prev.splice(indices.indexOf(findIndex), 1);
+				return prev.filter(el => el !== findIndex);
+			});
+			// find the original word in our original devle
+			// replace the same index with original word
+			obscuredArr[findIndex] = original[findIndex]; 
+			return obscuredArr.join(' ');
+			// unobscure
+			// loop obsuredQuestion, check for *
+		} else return devle;
+		// // put together remaining words to be returned as string
+		// setObscuredQuestion(dArr.join(' '));
+		// return dArr.join(' ');
 	}
 
+	// console.log(obscured(devle, getX(attempt)));
 	// generate the percentage
 
 	const getX = (attempt) => {
-		let x = 0.9;
-		if (attempt === 1){
-			x = 0.8;
-		} else if (attempt === 2){
-			x = 0.7;
-		} else if (attempt === 3){
-			x = 0.6;
-		} else if (attempt === 4){
-			x = 0.5;
-		} else if (attempt === 5){
+		let x;
+		if (attempt === 0){
 			x = 0.4;
+		} else if (attempt === 1){
+			x = 0.5;
+		} else if (attempt === 2){
+			x = 0.6;
+		} else if (attempt === 3){
+			x = 0.7;
+		} else if (attempt === 4){
+			x = 0.8;
+		} else if (attempt === 5){
+			x = 0.9;
 		}
 		return x;
+	}
+
+	if (attempt === 5){
+		navigate('/popup');
 	}
 
 	// check if user input is correct
@@ -79,22 +152,28 @@ const Home = () => {
 		axios.post('/api/guess', userData)
 			.then((res) => {
 				console.log('res data: ', res.data);
-				(!res.data) ? setAttempt(attempt+1) : console.log('winner winner');
+				(answer == userData) ? 
+
+					navigate('/win') :
+					setAttempt(attempt + 1);
+				// (!res.data) ? setAttempt(attempt+1) : console.log('winner winner');
 				console.log('attempt: ', attempt);
 			})
 			.catch((err) => console.log(err));
 	}
+	
+	// const obscuredQ = (obscured(devle, getX(attempt)));
 
 	return (
 		<div>
-			<h1>Today's Devle</h1>
-			<h1> number of attempts: {attempts} </h1>
+			<h1>Devle</h1>
+			<h1> number of attempts: {attempt} </h1>
 			<div>
-				<div>{devle}</div>
+				<div>{obscuredQuestion}</div>
 			</div>
 			<form onSubmit={guess}>
 					<input type="text" name="name" id='guess' placeholder='your answer' />
-				<input type="submit" value="Submit" />
+				<button type="submit" value="Submit"> guess </button>
 			</form>
 		</div>
 	);
