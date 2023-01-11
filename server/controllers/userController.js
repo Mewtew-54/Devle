@@ -1,5 +1,5 @@
 const path = require('path');
-const db = require('../db.js');
+const db = require('../connectPG.js');
 const bcrypt = require('bcrypt');
 const salt = bcrypt.genSaltSync(12);
 

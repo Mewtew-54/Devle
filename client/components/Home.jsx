@@ -28,7 +28,7 @@ const Home = () => {
 
 	// fetch the question
 
-	// how to obscur question
+	// how to obscure question
 
 	// check if user input is correct
 

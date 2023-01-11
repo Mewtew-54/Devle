@@ -4,11 +4,12 @@
   "description": "A daily word game for developers.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --mode=production",
-    "previousstart": "nodemon server/server.js",
     "start": "webpack-dev-server --mode=development --open --hot",
-    "dev": "npm start & webpack-dev-server --mode=development --open --hot"
+    "start:dev": "webpack-dev-server",
+    "build": "webpack",
+    "dev:all": "concurrently \"npm run start:dev\" \"npm run start:prod\"",
+    "start:prod": "nodemon server/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",

@@ -7,24 +7,28 @@ const apiRouter = require('./routes/api');
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 // app.use(express.static(path.resolve(__dirname, '../client')));
-app.use(express.static('/Users/Gahl/Desktop/Codesmith/Week 11/Devle/build'));
+
+app.use('/build', express.static(path.join(__dirname, '../build')));
+app.get('/', (req, res) => {
+  return res.status(200).sendFile(path.join(__dirname, '../index.html'));
+});
+
+//define route handler
+app.use('/api', apiRouter)
 
 // app.get('/', (req, res) => {
 //   return res.status(200).sendFile(path.join(__dirname, '../index.html'))
 // });
 
-app.get('/*', (req, res) => {
-  console.log('route found');
-  console.log(__dirname);
-    res.status(200).sendFile('/Users/Gahl/Desktop/Codesmith/Week 11/Devle/build')
-  })
+// app.get('/*', (req, res) => {
+//   console.log('route found');
+//   console.log(__dirname);
+//     res.status(200).sendFile('/Users/Gahl/Desktop/Codesmith/Week 11/Devle/build')
+//   })
 
-//define route handler
-app.use('/', apiRouter)
-
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'));
-});
+// app.get('/*', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../index.html'));
+// });
 
 
 // ---- error handlers ---- //
