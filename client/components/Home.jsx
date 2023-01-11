@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import state, { initialState, increment, reset, setDevle } from '../state';
 import { useDispatch, useSelector } from 'react-redux';
 
-const devle = {
-	questionStrings: [
-		"inserts a *** element with a specified ***** in to a *** object, if there isn't an element with the same value ******* in the ***.",
-		"inserts a new element with a specified ***** in to a Set object, if there isn't an element with the same value ******* in the Set.",
-		"inserts a new element with a specified value in to a Set object, if there isn't an element with the same value already in the Set.",
-	],
-	answer: 'add',
-};
+// const devle = {
+// 	questionStrings: [
+// 		"inserts a *** element with a specified ***** in to a *** object, if there isn't an element with the same value ******* in the ***.",
+// 		"inserts a new element with a specified ***** in to a Set object, if there isn't an element with the same value ******* in the Set.",
+// 		"inserts a new element with a specified value in to a Set object, if there isn't an element with the same value already in the Set.",
+// 	],
+// 	answer: 'add',
+// };
 
 const Home = () => {
+
+	const [devle, setDevle] = useState('');
 	// const devle = useSelector(state => state.devl)
 	const attempts = useSelector((state) => state.attempts);
 	console.log(attempts);
@@ -27,18 +29,26 @@ const Home = () => {
 	};
 
 	// fetch the question
+	axios.get('/api/')
+		.then((res) => {
+			console.log(res.data[0].question);
+			setDevle(res.data[0].question);
+		})
+		.catch((err) => console.log(err));
 
 	// how to obscure question
 
 	// check if user input is correct
-
+	// const guess = () => {
+	// 	axios.post('/api/guess')
+	// }
 
 	return (
 		<div>
 			<h1>Today's Devle</h1>
 			<h1> number of attempts: {attempts} </h1>
 			<div>
-				<div>{devle.questionStrings[attempts]}</div>
+				<div>{devle}</div>
 			</div>
 			<form onSubmit={checkAnswer}>
 				<label>
