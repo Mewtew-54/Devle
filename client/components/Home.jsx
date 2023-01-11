@@ -74,9 +74,8 @@ const Home = () => {
 	// check if user input is correct
 	const guess = (e) => {
 		e.preventDefault();
-		const userData = {
-			guess: document.getElementById('guess').value
-		}
+		const userData = document.getElementById('guess').value
+		console.log(userData);
 		axios.post('/api/guess', userData)
 			.then((res) => {
 				console.log('res data: ', res.data);
