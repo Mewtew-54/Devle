@@ -1,3 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+
 body {
-    background-color: red;
+    background-color:   #E6DADA;
+    font-family: 'Space Grotesk', sans-serif;
+}
+a:link{
+    text-decoration: none;
+    color: #E6DADA;
+}
+
+a {
+    color: #E6DADA;
+}
+button {
+    padding: 5px;
+    border-radius: 10px;
+    background-color: #274046;
+    cursor: pointer;
+    color: #E6DADA
+}
+input {
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid #274046;
 }

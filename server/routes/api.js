@@ -2,20 +2,22 @@ const express = require('express');
 const app = express();
 const Router = express.Router();
 
+
 // require middleware here
 const gameController = require('../controllers/gameController.js');
+const userController = require('../controllers/userController.js');
 
 app.get('/', (req, res) => {
     res.status(200).send('Hello from the back-end')
   });
 
 //login
-Router.post('/login', (req, res) => {
-    return res.status(200).json(res.locals);
+Router.post('/signin', userController.verifyUser, (req, res) => {
+    return res.status(200).json(res.locals.user);
 });
 //signup
-Router.post('/signup', (req, res) => {
-    return res.status(200);
+Router.post('/signup', userController.createUser, (req, res) => {
+    return res.status(200).send('signed up');
 });
 //get the definition for the game
 Router.get('/', gameController.getQuestion, (req, res) => {

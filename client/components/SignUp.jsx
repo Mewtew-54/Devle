@@ -1,16 +1,30 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
-const SignUp = () => {
+const SignUp = (props) => {
+  const navigate = useNavigate();
+  function submitHandler(){
+    const userData = {
+      username: document.getElementById('username').value ,
+      password: document.getElementById('password').value ,
+      email: document.getElementById('email').value
+    }
+    axios.post('/api/signup', userData);
+    navigate('/');
+    
+  }
+  // if (this.props.redirect) {
+  //   return <Navigate to={'/login'}/>
+  // }
     return (
         <div className="home">
         <div className="welcome" data-testid="SignUp">
           <h1 className="welcomeMessage">Welcome to Devle!</h1>
-          <h2></h2>
   
-          <form className="form" onSubmit={((event) => console.log(event))}>
+          <form className="form" onSubmit={submitHandler}>
             <label className="username">
-              <input type="text" name="username" id="username" placeholder="enter username" />
+              <input type="text" name="username" id="username" placeholder="Enter username" />
             </label>
             <label className="email">
               <input type="email" name="email" id="email" placeholder="your@email.here" />
@@ -18,15 +32,15 @@ const SignUp = () => {
             <label className="password">
               <input type="password" name="password" id="password" placeholder="Enter password" />
             </label>
-            <label className="passwordConfirm">
+            {/* <label className="passwordConfirm">
               <input type="password" name="passwordConfirm" id="passwordConfirm" placeholder="confirm password" />
-            </label>
+            </label> */}
             {/* {failedSignUp} */}
             <button className="link" id="submitBtn" type="submit">
               Sign Up
             </button>
-            <button className="link needAccount" onClick={() => navigate('/signin')}>
-              Already have an account?
+            <button className="link">
+              <Link id='link' to='/'>Already have an account?</Link>
             </button>
           </form>
         </div>
