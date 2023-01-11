@@ -25,6 +25,14 @@ const Home = () => {
 			//if equal, then set new state value (success?) to true, which will render new component (/success page?) for user
 		}
 	};
+
+	// fetch the question
+
+	// how to obscur question
+
+	// check if user input is correct
+
+
 	return (
 		<div>
 			<h1>Today's Devle</h1>
