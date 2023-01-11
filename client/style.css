@@ -286,7 +286,7 @@ h1 {
     z-index: -1;
 }
   
-.drop {
+#rain .drop {
     position: absolute;
     width: 100px;
     height: 100px;
