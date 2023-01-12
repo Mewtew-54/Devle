@@ -61,55 +61,48 @@ const Home = () => {
 	// const indices = [];
 
 	const obscured = (devle, obscuredQuestion, x) => {
-		console.log('devle is ', devle)
-		// console.log('devle is: ', devle);
-		// console.log('x is: ', x);
-		// take our devle 
-
+		const partsOfSpeech = ['the', 'of', 'a', 'an', 'and', 'or'];
+		// take our devle
 		//first iteration (obscuredQuestion === undefined), run obscured and set obscured question to result
 		//subsequent iterations, run obscured and set OQ to result 
 		const dArr = devle.split(' ');
-		// console.log('dArr is: ', dArr);
 		// obscure x percentage based off of length
 		let totalWords = Math.floor(dArr.length - (dArr.length * x));
-		console.log('totalWords is: ', totalWords);
 		// loop through the devle arr and replace words with obscured version/remove
 		// first iteration
 		if (attempt === 0){
-			// console.log('inside if conditional');
 			let indicesArr = []; 
 			while (totalWords > 0){
 				let index = Math.floor(Math.random() * dArr.length)
-				if (!dArr[index].includes('_') && !dArr[index].includes('*')) {
-					// console.log('inside second conditional')
+				if (!dArr[index].includes('_') && !dArr[index].includes('*') && !partsOfSpeech.includes(dArr[index].toLowerCase())) {
 					dArr.splice(index, 1, '*'.repeat(dArr[index].length));
 					totalWords -= 1;
 					indicesArr.push(index); 
 					
 					// indices.push(index);
-					// console.log("indicesArr is: ", indicesArr);
 				}
 			// setObscursedQuestion(dArr.join(' '));
 		}
 		setIndices(indicesArr);
-		console.log('state indices: ', indices)
 		return dArr.join(' ');
 		} else if (attempt < 5) {
-			console.log('indices: ', indices);
 			// grab a random index from our indices
-			const original = devle.split(' ');
 			const obscuredArr = obscuredQuestion.split(' ');
-			console.log('obscuredArr: ', obscuredArr);
-			let findIndex = indices[Math.floor(Math.random() * indices.length)];
-			console.log('findIndex: ', findIndex);
-			
-			setIndices((prev) => {
-				// prev.splice(indices.indexOf(findIndex), 1);
-				return prev.filter(el => el !== findIndex);
-			});
+			let findIndex = [];
+			let indicesCopy = [...indices];
+			// console.log('indices.length before is: ', indicesCopy.length)
+			let factor = Math.floor(indicesCopy.length * x)
+			// console.log('number of revealed elements is: ', factor);
+			for (let i = 0; i < factor; i++) {
+				let j = Math.floor(Math.random() * indicesCopy.length)
+				findIndex.push(indicesCopy[j]);
+				indicesCopy.splice(j, 1);
+				obscuredArr[findIndex[i]] = dArr[findIndex[i]];
+			};
+			setIndices(indicesCopy);
+			// console.log('indices.length after is: ', indicesCopy.length)
 			// find the original word in our original devle
 			// replace the same index with original word
-			obscuredArr[findIndex] = original[findIndex]; 
 			return obscuredArr.join(' ');
 			// unobscure
 			// loop obsuredQuestion, check for *
@@ -127,52 +120,62 @@ const Home = () => {
 		if (attempt === 0){
 			x = 0.4;
 		} else if (attempt === 1){
-			x = 0.5;
+			x = 0.2;
 		} else if (attempt === 2){
-			x = 0.6;
+			x = 0.3;
 		} else if (attempt === 3){
-			x = 0.7;
+			x = 0.6;
 		} else if (attempt === 4){
-			x = 0.8;
-		} else if (attempt === 5){
-			x = 0.9;
-		}
+			x = 1;
+		} 
 		return x;
 	}
 
 	if (attempt === 5){
+		axios.post('/api/attempts', attempt);
 		navigate('/popup');
 	}
 
 	// check if user input is correct
 	const guess = (e) => {
 		e.preventDefault();
-		const userData = document.getElementById('guess').value
-		console.log(userData);
+		let userData = document.getElementById('guess').value;
+		document.getElementById('guess').value = '';
+		// console.log(userData);
+		const secondToLastChar = userData.length - 2;
+		const lastChar = userData.length - 1;
+		if (userData[secondToLastChar] !== '(' && userData[lastChar] !== ')') {
+			userData = userData + '()'
+		}
 		axios.post('/api/guess', userData)
 			.then((res) => {
 				console.log('res data: ', res.data);
-				(answer == userData) ? 
-
-					navigate('/win') :
+				if (answer == userData){
+				  axios.post('/api/attempts', attempt)
+					navigate('/win')
+				} else {
 					setAttempt(attempt + 1);
+				}
 				// (!res.data) ? setAttempt(attempt+1) : console.log('winner winner');
 				console.log('attempt: ', attempt);
 			})
 			.catch((err) => console.log(err));
 	}
 	
+
+
 	// const obscuredQ = (obscured(devle, getX(attempt)));
 
 	return (
-		<div>
+		<div className='devle'>
 			<h1>Devle</h1>
-			<h1> number of attempts: {attempt} </h1>
 			<div>
 				<div>{obscuredQuestion}</div>
 			</div>
+			<br></br>
+			<br></br>
 			<form onSubmit={guess}>
-					<input type="text" name="name" id='guess' placeholder='your answer' />
+				<input style={{borderBottom :'none'}}type="text" name="name" id='guess' placeholder='your answer' />
 				<button type="submit" value="Submit"> guess </button>
 			</form>
 		</div>

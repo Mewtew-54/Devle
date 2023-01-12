@@ -16,20 +16,22 @@ const SignIn = () => {
         <div className="home">
             <div className="welcome" data-testid="SignIn">
                 <h1 className="welcomeMessage">Welcome to Devle!</h1>
-                <form className="form" onSubmit={submitHandler}>
-                    <label className="username">
-                        <input type="text" name="username" id="username" placeholder="Enter username" />
-                    </label>
-                    <label className="password">
-                        <input type="password" name="password" id="password" placeholder="Enter password" />
-                    </label>
-                    <button className="link" id="submitBtn" type="submit">
-                        Sign In
-                    </button>
-                    <button className="link needAccount">
-                        <Link id='link' to='/signup'>Need an account?</Link>
-                    </button>
-                </form>
+                <div className='loginSignin'>
+                    <form className="form" onSubmit={submitHandler}>
+                        <label className="username">
+                            <input type="text" name="username" id="username" placeholder="Enter username" />
+                        </label>
+                        <label className="password">
+                            <input type="password" name="password" id="password" placeholder="Enter password" />
+                        </label>
+                        <button className="link" id="submitBtn" type="submit" >
+                            Sign In
+                        </button>
+                        <button className="link needAccount">
+                            <Link id='link' to='/signup'>Need an account?</Link>
+                        </button>
+                    </form>
+                </div>
             </div>
         </div>
     )
