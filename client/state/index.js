@@ -1,11 +1,26 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {}
+export const initialState = {
+	attempts: 0,
+	devle: {},
+};
 
-export const authSlice = createSlice({
-  name: 'auth',
-  initialState,
-  reducers: {
-    
-  }
-})
+export const attemptsSlice = createSlice({
+	name: 'attempts',
+	initialState,
+	reducers: {
+		increment: (state) => {
+			state.attempts += 1;
+		},
+		reset: (state) => {
+			state.attempts = 0;
+		},
+		setDevle: (state, action) => {
+			state.devle = action.payload;
+		},
+	},
+});
+
+export const { increment, reset, setDevle } = attemptsSlice.actions;
+
+export default attemptsSlice.reducer;
